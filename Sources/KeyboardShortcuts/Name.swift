@@ -19,6 +19,7 @@ extension KeyboardShortcuts {
 
 		public let rawValue: String
 		public let defaultShortcut: Shortcut?
+        public let isGlobal: Bool
 
 		/**
 		Get the keyboard shortcut assigned to the name.
@@ -29,10 +30,11 @@ extension KeyboardShortcuts {
 		- Parameter name: Name of the shortcut.
 		- Parameter default: Optional default key combination. Do not set this unless it's essential. Users find it annoying when random apps steal their existing keyboard shortcuts. It's generally better to show a welcome screen on the first app launch that lets the user set the shortcut.
 		*/
-		public init(_ name: String, default defaultShortcut: Shortcut? = nil) {
+		public init(_ name: String, default defaultShortcut: Shortcut? = nil, isGlobal: Bool = false) {
 			self.rawValue = name
 			self.defaultShortcut = defaultShortcut
-
+            self.isGlobal = isGlobal
+            
 			if
 				let defaultShortcut,
 				!userDefaultsContains(name: self)

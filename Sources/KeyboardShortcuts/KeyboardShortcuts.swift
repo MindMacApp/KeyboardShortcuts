@@ -400,11 +400,13 @@ public enum KeyboardShortcuts {
 			return
 		}
 
-		if let oldShortcut = getShortcut(for: name) {
-			unregister(oldShortcut)
-		}
+        if name.isGlobal {
+            if let oldShortcut = getShortcut(for: name) {
+                unregister(oldShortcut)
+            }
+            register(shortcut)
+        }
 
-		register(shortcut)
 		UserDefaults.standard.set(encoded, forKey: userDefaultsKey(for: name))
 		userDefaultsDidChange(name: name)
 	}
@@ -425,7 +427,9 @@ public enum KeyboardShortcuts {
 		}
 
 		UserDefaults.standard.removeObject(forKey: userDefaultsKey(for: name))
-		unregister(shortcut)
+        if name.isGlobal {
+            unregister(shortcut)
+        }
 		userDefaultsDidChange(name: name)
 	}
 
