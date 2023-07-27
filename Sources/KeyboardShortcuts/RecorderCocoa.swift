@@ -225,11 +225,10 @@ extension KeyboardShortcuts {
 				}
 
 				// The “shift” key is not allowed without other modifiers or a function key, since it doesn't actually work.
-				guard
-          event.modifiers.isEmpty
-            || !event.modifiers.subtracting(.shift).isEmpty
-						|| event.specialKey?.isFunctionKey == true,
-					let shortcut = Shortcut(event: event)
+                // Only allow shift when use with enter/return
+                // TODO: allow shift + enter
+                // TODO: validate if duplicate with current shortcuts
+                guard event.modifiers.isEmpty || !event.modifiers.subtracting(.shift).isEmpty || (event.modifiers.subtracting(.shift).isEmpty && (event.keyCode == 36 || event.keyCode == 76)) || event.specialKey?.isFunctionKey == true, let shortcut = Shortcut(event: event)
 				else {
 					NSSound.beep()
 					return nil
